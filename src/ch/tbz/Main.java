@@ -34,7 +34,7 @@ public class Main {
             } else {
                 out.println("CORRECT, The Result is " +  result);
             }
-            String decision = inputString("Do you want to test again? Yes or no?");
+            String decision = inputString("Do you want to test again? Yes or no?").toLowerCase();
             if (decision.equals("no")) {
                 out.println("Okay, goodbye");
                 is_running = false;
