@@ -13,24 +13,33 @@ import static ch.tbz.lib.Input.*;       // All the functions can be used now!
 public class Main {
     // Our main function which runs the program12
     public static void main(String[] args ) {
-        Random rand = new Random();
         double result = 0;
         boolean is_running = true;
         while (is_running) {
 
-            char user_input = inputChar("What do you want to train? +, - or * ?");
-            float randomInt1 = rand.nextInt(101);
-            float randomInt2 = rand.nextInt(101);
+            char user_input = inputChar("What do you want to train? +, -, / or * ?");
+            float randomInt1 = getRandomNum(101);
+            float randomInt2 = getRandomNum(101);
+            float remainder = 0;
+            int answerRemainder= 0;
 
             if (user_input == '+') {
                 randomInt1 += roundAvoid(random(), 1);
                 randomInt2 += roundAvoid(random(), 1);
                 result = Addition(randomInt1, randomInt2);
-            } else if (user_input == '-') {
+            }
+            else if(user_input == '/'){
+                randomInt1 = getRandomNum(13);
+                randomInt2 = getRandomNum(13);
+                result = Division(randomInt1, randomInt2);
+                remainder = getRemainder(randomInt1, randomInt2);
+            }
+            else if (user_input == '-') {
                 randomInt1 += roundAvoid(random(), 1);
                 randomInt2 += roundAvoid(random(), 1);
                 result = Subtraction(randomInt1, randomInt2);
-            } else{
+            }
+            else{
                 result = Multiplication(randomInt1, randomInt2);
             }
             result = roundAvoid(result, 1);
@@ -38,9 +47,21 @@ public class Main {
             System.out.println(randomInt1 + " " + user_input + " " + randomInt2 + " = ?");
 
             double answer = inputDouble("Enter the result:");
+            if (user_input == '/') {
+                answerRemainder = inputInt("Enter the remainder: ");
+            }
             answer = roundAvoid(answer, 1);
+            remainder = round(remainder);
 
-            if (answer != result) {
+            if (user_input == '/') {
+                result = round(answer);
+                if (answer == result & remainder == answerRemainder) {
+                    out.println("CORRECT, The Result is " +  result + " " + remainder);
+                } else {
+                    out.println("WRONG: The Result is " + result + " " + remainder);
+                }
+            }
+            else if (answer != result) {
                 out.println("WRONG: The Result is " + result);
             } else {
                 out.println("CORRECT, The Result is " +  result);
@@ -55,6 +76,11 @@ public class Main {
 
         }
     }
+    static float getRandomNum(int value){
+        Random rand = new Random();
+        return rand.nextInt(value);
+    }
+
     static float Addition(float num1, float num2){
         return num1 + num2;
     }
@@ -69,5 +95,13 @@ public class Main {
     public static double roundAvoid(double value, int places) {
         double scale = Math.pow(10, places);
         return Math.round(value * scale) / scale;
+    }
+
+    static float Division(float num1, float num2){
+        return num1 / num2;
+    }
+
+    static float getRemainder(float num1, float num2){
+        return num1 % num2;
     }
 }
